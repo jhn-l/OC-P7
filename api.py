@@ -1,7 +1,25 @@
 from flask import Flask, request, jsonify
 import pickle
 import os
+import logging
 from mlflow import sklearn
+from opencensus.ext.azure.log_exporter import AzureLogHandler 
+
+
+# Traceur Azure Application Insights
+# Votre clé d’instrumentation
+INSTRUMENTATION_KEY = '2abd6f3d-5473-4b85-88d8-174a16dacf8a'
+
+
+# Configuration du logger pour Application Insights
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+logger.addHandler(AzureLogHandler(connection_string=f'InstrumentationKey={INSTRUMENTATION_KEY}'))
+
+# Fonction pour tester la configuration du logger
+def test_logger_configuration(message="Test de configuration du logger"):
+    logger.info(message)
+    return "Log sent" 
 
 # Dossier contenant les artefacts pour la production
 artifact_dir = "artifacts"
@@ -67,8 +85,47 @@ def predict():
         return jsonify({'predictions': predictions.tolist()})
 
     except Exception as e:
+        logger.error('Erreur de prédiction', exc_info=True)
         return jsonify({'error': str(e)}), 400
+
+
+# Avec cette configuration :
+
+# La route /feedback reçoit un feedback pour chaque prédiction, qu'elle soit correcte ou incorrecte.
+# En cas de feedback négatif (non_valide), une trace de niveau warning est envoyée.
+# En cas de feedback positif (valide), une trace de niveau info est envoyée.
+
+@app.route('/feedback', methods=['POST'])
+def feedback():
+    data = request.get_json()
+    if "text" not in data or "prediction" not in data or "feedback" not in data:
+        return jsonify({'error': 'Requête invalide'}), 400
+    
+    tweet_text = data["text"]
+    prediction_result = data["prediction"]
+    feedback_type = data["feedback"]
+
+    # Enregistrer le feedback dans Application Insights ou un autre système de suivi ici
+    if feedback_type == "non_valide":
+        logger.warning("Prédiction incorrecte", extra={
+            "custom_dimensions": {
+                "tweet": tweet_text,
+                "prediction": prediction_result
+            }
+        })
+    elif feedback_type == "valide":
+        logger.info("Prédiction validée", extra={
+            "custom_dimensions": {
+                "tweet": tweet_text,
+                "prediction": prediction_result
+            }
+        })
+
+    return jsonify({'status': 'Feedback reçu'})
 
 # Lancer l'application
 if __name__ == '__main__':
+    # Envoyer un log de test au démarrage pour vérifier la configuration
+    test_logger_configuration("Démarrage de l'application - vérification du logger")
     app.run(host='0.0.0.0', port=8123)
+
