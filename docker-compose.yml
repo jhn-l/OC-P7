@@ -82,7 +82,7 @@ services:
     # depends_on:
     #   - mlflow
     ports:
-      - "8123:8123"  # Port d'exposition de l'API, ajuste selon ton choix
+      - "8000:8000"  # Port d'exposition de l'API, ajuste selon ton choix
     volumes:
       - .:/app  # Monte le fichier local api.py dans le conteneur
       - ./mlruns:/tmp/mlruns:rw
