@@ -18,6 +18,7 @@ jobs:
         python -m pytest ./tests/test-unit-api.py
   
   build-and-deploy:
+    depends
     runs-on: ubuntu-latest
 
     steps:
@@ -32,13 +33,22 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-    - name: Log in to Azure Container Registry
-      env:
-        AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-        AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
-        AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+    # - name: Log in to Azure Container Registry
+    #   env:
+    #     AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+    #     AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+    #     AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+    #   run: |
+    #     echo $AZURE_CONTAINER_REGISTRY_PASSWORD | docker login $AZURE_CONTAINER_REGISTRY.azurecr.io -u $AZURE_CONTAINER_REGISTRY_USERNAME --password-stdin
+
+    - name: Log in to Azure CLI
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Log in to Azure Container Registry using Azure CLI
       run: |
-        echo $AZURE_CONTAINER_REGISTRY_PASSWORD | docker login $AZURE_CONTAINER_REGISTRY.azurecr.io -u $AZURE_CONTAINER_REGISTRY_USERNAME --password-stdin
+        az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
 
     - name: Build and Push Docker Image to ACR
       run: |
