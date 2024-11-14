@@ -12,17 +12,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      # Étape 1 : Récupération du code source
-      - name: Check out code
-        uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # Étape 2 : Construction et exécution des services avec Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
       - name: Build and run API and tests with Docker Compose
         run: |
           docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit
         env:
           DOCKER_BUILDKIT: 1
 
-      # Étape 3 : Nettoyage des conteneurs
       - name: Stop and remove containers
         run: docker-compose -f docker-compose-test.yml down
