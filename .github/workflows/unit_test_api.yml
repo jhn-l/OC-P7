@@ -46,11 +46,11 @@ jobs:
         with:
           resource-group: Projet7 # Updated resource group name
           name: myfastapiapp-container
-          image: apisentiment.azurecr.io/myfastapiapp:latest # Updated container registry name
-          registry-login-server: apisentiment.azurecr.io # Updated container registry login server
+          image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest # Updated container registry name
+          registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io # Updated container registry login server
           registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-          dns-name-label: myfastapiapp-label # Replace this with a unique label for your app URL
+          dns-name-label: myapiapp-projet7 # Replace this with a unique label for your app URL
           ports: 8000
           location: francecentral # Set location to France Central
           cpu: 1
