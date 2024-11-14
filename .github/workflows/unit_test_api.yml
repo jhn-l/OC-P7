@@ -48,7 +48,7 @@ jobs:
           name: myfastapiapp-container
           image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest # Updated container registry name
           registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io # Updated container registry login server
-          registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
           registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           dns-name-label: myapiapp-projet7 # Replace this with a unique label for your app URL
           ports: 8000
