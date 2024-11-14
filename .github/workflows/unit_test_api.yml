@@ -8,12 +8,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.11.2 # Replace with your desired Python version
+          python-version: 3.11.2
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r ./data/requirements-api.txt  # Add any additional dependencies needed for testing
-      - name: Run flask api Tests
+          pip install -r ./data/requirements-api.txt
+      - name: Run Flask API Tests
         run: |
           python -m pytest ./tests/test-unit-api.py
 
@@ -38,16 +38,16 @@ jobs:
 
       - name: Build and Push Docker Image to ACR
         run: |
-          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest .
-          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
+          docker build -t apisentiment.azurecr.io/myfastapiapp:latest .
+          docker push apisentiment.azurecr.io/myfastapiapp:latest
 
       - name: Deploy to Azure Container Instance
         uses: azure/aci-deploy@v1
         with:
-          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          resource-group: Projet7 # Updated resource group name
           name: myfastapiapp-container
-          image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
-          registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+          image: apisentiment.azurecr.io/myfastapiapp:latest # Updated container registry name
+          registry-login-server: apisentiment.azurecr.io # Updated container registry login server
           registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
           registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           dns-name-label: myfastapiapp-label # Replace this with a unique label for your app URL
