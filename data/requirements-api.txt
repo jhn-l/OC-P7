@@ -1,9 +1,11 @@
 flask
-tensorflow
+#tensorflow
 python-dotenv
 pandas
-transformers
+#transformers
 nltk
 mlflow
 numpy==1.26.4
 psutil==6.1.0
+pytest
+
