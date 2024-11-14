@@ -1,0 +1,28 @@
+name: Run API Tests with Docker Compose
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      # Étape 1 : Récupération du code source
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Étape 2 : Construction et exécution des services avec Docker Compose
+      - name: Build and run API and tests with Docker Compose
+        run: |
+          docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit
+        env:
+          DOCKER_BUILDKIT: 1
+
+      # Étape 3 : Nettoyage des conteneurs
+      - name: Stop and remove containers
+        run: docker-compose -f docker-compose-test.yml down
