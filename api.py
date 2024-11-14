@@ -127,5 +127,5 @@ def feedback():
 if __name__ == '__main__':
     # Envoyer un log de test au démarrage pour vérifier la configuration
     test_logger_configuration("Démarrage de l'application - vérification du logger")
-    app.run(host='0.0.0.0', port=8123)
+    app.run(host='0.0.0.0', port=8000)
 
