@@ -16,3 +16,24 @@ jobs:
     - name: Run flask api Tests
       run: |
         python -m pytest ./tests/test-unit-api.py
+  
+  deploy:
+    needs: test  # Only runs if 'test' job passes
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+      
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  # GitHub Secret for Azure credentials JSON
+
+    - name: Deploy to Azure Web App
+      env:
+        AZURE_WEBAPP_NAME: ${{ secrets.AZURE_WEBAPP_NAME }}  # Name of your Azure Web App
+        AZURE_RESOURCE_GROUP: ${{ secrets.AZURE_RESOURCE_GROUP }}  # Resource group name
+        AZURE_REGION: ${{ secrets.AZURE_REGION }}  # Azure region (e.g., "eastus")
+      run: |
+        # Package and deploy the application
+        az webapp up --name $AZURE_WEBAPP_NAME --resource-group $AZURE_RESOURCE_GROUP --location $AZURE_REGION --sku B1 --verbose
