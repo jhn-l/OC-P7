@@ -17,7 +17,7 @@ jobs:
         run: |
           python -m pytest ./tests/test-unit-api.py
 
-  build-and-deploy:
+   build-and-deploy:
     needs: test # Only runs if 'test' job passes
     runs-on: ubuntu-latest
     steps:
@@ -31,19 +31,6 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-
-      # - name: Log in to Azure Container Registry
-      #   env:
-      #     AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-      #     AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
-      #     AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-      #   run: |
-      #     echo $AZURE_CONTAINER_REGISTRY_PASSWORD | docker login $AZURE_CONTAINER_REGISTRY.azurecr.io -u $AZURE_CONTAINER_REGISTRY_USERNAME --password-stdin
-
-      - name: Log in to Azure CLI
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Log in to Azure Container Registry using Azure CLI
         run: |
@@ -65,3 +52,9 @@ jobs:
           registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
           dns-name-label: myfastapiapp-label # Replace this with a unique label for your app URL
           ports: 8000
+          location: francecentral # Set location to France Central
+          cpu: 1
+          memory: 1.5
+          os-type: Linux
+          protocol: TCP
+          restart-policy: Always
