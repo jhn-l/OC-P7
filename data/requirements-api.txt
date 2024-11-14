@@ -1,0 +1,9 @@
+flask
+tensorflow
+python-dotenv
+pandas
+transformers
+nltk
+mlflow
+numpy==1.26.4
+psutil==6.1.0
