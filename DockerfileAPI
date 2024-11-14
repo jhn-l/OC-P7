@@ -15,7 +15,7 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 
 # Copier uniquement les fichiers nécessaires
 COPY api.py /app/api.py
-COPY test-unit-api.py /app/test-unit-api.py
+COPY tests/test-unit-api.py /app/test-unit-api.py
 
 # Exposer le port sur lequel l'API va fonctionner
 EXPOSE 8123

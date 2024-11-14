@@ -1,0 +1,100 @@
+services:
+  # Service pour Jupyter et l'application
+  app:
+    container_name: p7-python-dev
+    build:
+      context: .
+      dockerfile: Dockerfile  # Remplacez par le nom de votre Dockerfile si différent
+    #user: "1000:1000"
+    working_dir: /code
+    volumes:
+      - .:/code  # Monte le code local dans le conteneur
+      - ./mlruns:/tmp/mlruns:rw  # Monte le répertoire des artefacts MLflow
+    ports:
+      - "8888:8888"  # Expose le port Jupyter
+    environment:
+      - JUPYTER_PORT=8888
+      - PYTHONDONTWRITEBYTECODE=1
+      - JUPYTER_WORKDIR="/code"
+      - MLFLOW_TRACKING_URI=http://mlflow-server:5000
+      #- MLFLOW_ARTIFACT_ROOT=/tmp/mlruns
+      #- MLFLOW_TRACKING_URI=http://mlflow-server:5000  # Adresse de suivi MLflow
+      - PYTHONUNBUFFERED=1
+      - LANG=fr_FR.UTF-8
+      # - JUPYTER_RUNTIME_DIR=/tmp/jupyter/runtime
+      # - JUPYTER_DATA_DIR=/tmp/jupyter/data
+      #- REMOTE_USER=1000
+     # - VSCODE_SERVER_PATH=/code/.vscode-server
+    # depends_on:
+    #   - mlflow  # Assure que le serveur MLflow démarre avant l'application
+    networks:
+      - my_network  # Associe le conteneur au réseau
+
+  # Service pour PostgreSQL
+  postgres:
+    image: "postgres:14"
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volume pour la persistance des données
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"  # Expose le port PostgreSQL pour les connexions
+    networks:
+      - my_network  # Associe le conteneur au réseau
+
+  # Service pour le serveur MLflow
+  mlflow:
+    container_name: mlflow-server
+    build: 
+      context: .
+      dockerfile: DockerfilePython  # Dockerfile spécifique pour MLflow
+     # - ./wait-for-postgres.sh:/wait-for-postgres.sh  # Script pour attendre PostgreSQL (si utilisé)
+    user: "1000:1000"
+    ports:
+      - "5000:5000"  # Expose le port MLflow
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow-server:5000
+      - MLFLOW_BACKEND_STORE_URI=postgresql://postgres:postgres@postgres/mydb
+      - MLFLOW_ARTIFACT_ROOT=/tmp/mlruns
+      # - POSTGRES_HOST=postgres
+      # - POSTGRES_USER=postgres
+      # - POSTGRES_PASSWORD=postgres
+      # - POSTGRES_DB=mydb
+    volumes:
+      - ./mlruns:/tmp/mlruns:rw  # Volume pour les artefacts MLflow
+    networks:
+      - my_network  # Associe le conteneur au réseau
+    depends_on:
+      - postgres
+
+  api-prediction:
+    container_name: api-prediction
+    build:
+      context: .  # Remplace par le chemin où se trouve le Dockerfile de l'API
+      dockerfile: DockerfileAPI  # Assure-toi que le Dockerfile est dans ce dossier
+    environment:
+      - MLFLOW_TRACKING_URI=http://mlflow-server:5000 # URL pour que l’API accède au serveur MLflow
+     # - MLFLOW_ARTIFACT_ROOT=/tmp/mlruns
+    #  - MODEL_URI=mlflow://models:/SentimentAnalysisModel/Production  # Remplace par l'URI de ton modèle
+    # depends_on:
+    #   - mlflow
+    ports:
+      - "8123:8123"  # Port d'exposition de l'API, ajuste selon ton choix
+    volumes:
+      - .:/app  # Monte le fichier local api.py dans le conteneur
+      - ./mlruns:/tmp/mlruns:rw
+    # - ./path-to-model:/models  # Montre le chemin des modèles si nécessaire
+    #command: python app.py  # Commande pour démarrer l'API, ajuste selon ton fichier
+    networks:
+      - my_network
+
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    driver: bridge
