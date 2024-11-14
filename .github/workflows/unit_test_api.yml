@@ -1,30 +1,18 @@
-name: Run API Tests with Docker Compose
-
-on:
-  push:
-    branches:
-      - dev
-  pull_request:
-    branches:
-      - dev
-
+on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
-      - name: Build and run API and tests with Docker Compose
-        run: |
-          docker-compose -f docker-compose-test.yml up --build --abort-on-container-exit
-        env:
-          DOCKER_BUILDKIT: 1
-
-      - name: Stop and remove containers
-        run: docker-compose -f docker-compose-test.yml down
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11.2  # Replace with your desired Python version
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r ./data/requirements-api.txt  # Add any additional dependencies needed for testing
+    - name: Run flask api Tests
+      run: |
+        python -m pytest ./tests/test-unit-api.py
