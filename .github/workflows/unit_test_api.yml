@@ -18,8 +18,8 @@ jobs:
           python -m pytest ./tests/test-unit-api.py
 
   build-and-deploy:
+    needs: test # Only runs if 'test' job passes
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
