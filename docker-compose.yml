@@ -77,6 +77,7 @@ services:
       dockerfile: DockerfileAPI  # Assure-toi que le Dockerfile est dans ce dossier
     environment:
       - MLFLOW_TRACKING_URI=http://mlflow-server:5000 # URL pour que l’API accède au serveur MLflow
+      - FLASK_APP=api.py 
      # - MLFLOW_ARTIFACT_ROOT=/tmp/mlruns
     #  - MODEL_URI=mlflow://models:/SentimentAnalysisModel/Production  # Remplace par l'URI de ton modèle
     # depends_on:
@@ -88,6 +89,7 @@ services:
       - ./mlruns:/tmp/mlruns:rw
     # - ./path-to-model:/models  # Montre le chemin des modèles si nécessaire
     #command: python app.py  # Commande pour démarrer l'API, ajuste selon ton fichier
+    command: flask run --host=0.0.0.0 --port=8000  # Commande pour démarrer Flask
     networks:
       - my_network
 
