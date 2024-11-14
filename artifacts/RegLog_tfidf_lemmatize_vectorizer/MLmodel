@@ -1,0 +1,12 @@
+artifact_path: RegLog_tfidf_lemmatize_vectorizer
+flavors:
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.5.2
+mlflow_version: 2.17.2
+model_size_bytes: 2625722
+model_uuid: de3426333a354a7fb4ee9f3132ba6825
+run_id: 8d142b759b02429d870ecf31d9e35c4d
+utc_time_created: '2024-11-12 20:09:24.120700'
