@@ -21,7 +21,7 @@ COPY tests/test-unit-api.py /app/test-unit-api.py
 EXPOSE 8000
 
 # Définir la commande par défaut pour lancer l'API
-#CMD ["python", "/app/api.py"]
+CMD ["python", "/app/api.py"]
 
 # Définir la commande par défaut pour lancer l'API avec Uvicorn
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
+#CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000"]
