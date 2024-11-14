@@ -38,7 +38,7 @@ jobs:
 
       - name: Build and Push Docker Image to ACR
         run: |
-          docker build -t apisentiment.azurecr.io/myfastapiapp:latest .
+          docker build -f DockerfileAPI -t apisentiment.azurecr.io/myfastapiapp:latest .
           docker push apisentiment.azurecr.io/myfastapiapp:latest
 
       - name: Deploy to Azure Container Instance
