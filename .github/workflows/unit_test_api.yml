@@ -17,7 +17,7 @@ jobs:
         run: |
           python -m pytest ./tests/test-unit-api.py
 
-   build-and-deploy:
+  build-and-deploy:
     needs: test # Only runs if 'test' job passes
     runs-on: ubuntu-latest
     steps:
