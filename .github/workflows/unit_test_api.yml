@@ -3,66 +3,65 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.11.2  # Replace with your desired Python version
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r ./data/requirements-api.txt  # Add any additional dependencies needed for testing
-    - name: Run flask api Tests
-      run: |
-        python -m pytest ./tests/test-unit-api.py
-  
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11.2 # Replace with your desired Python version
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./data/requirements-api.txt  # Add any additional dependencies needed for testing
+      - name: Run flask api Tests
+        run: |
+          python -m pytest ./tests/test-unit-api.py
+
   build-and-deploy:
-    depends
     runs-on: ubuntu-latest
 
     steps:
-    - name: Check out the code
-      uses: actions/checkout@v2
+      - name: Check out the code
+        uses: actions/checkout@v2
 
-    - name: Log in to Azure CLI
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Log in to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-    # - name: Log in to Azure Container Registry
-    #   env:
-    #     AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
-    #     AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
-    #     AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-    #   run: |
-    #     echo $AZURE_CONTAINER_REGISTRY_PASSWORD | docker login $AZURE_CONTAINER_REGISTRY.azurecr.io -u $AZURE_CONTAINER_REGISTRY_USERNAME --password-stdin
+      # - name: Log in to Azure Container Registry
+      #   env:
+      #     AZURE_CONTAINER_REGISTRY: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+      #     AZURE_CONTAINER_REGISTRY_USERNAME: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+      #     AZURE_CONTAINER_REGISTRY_PASSWORD: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+      #   run: |
+      #     echo $AZURE_CONTAINER_REGISTRY_PASSWORD | docker login $AZURE_CONTAINER_REGISTRY.azurecr.io -u $AZURE_CONTAINER_REGISTRY_USERNAME --password-stdin
 
-    - name: Log in to Azure CLI
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Log in to Azure CLI
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Log in to Azure Container Registry using Azure CLI
-      run: |
-        az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
+      - name: Log in to Azure Container Registry using Azure CLI
+        run: |
+          az acr login --name ${{ secrets.AZURE_CONTAINER_REGISTRY }}
 
-    - name: Build and Push Docker Image to ACR
-      run: |
-        docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest .
-        docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
+      - name: Build and Push Docker Image to ACR
+        run: |
+          docker build -t ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest .
+          docker push ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
 
-    - name: Deploy to Azure Container Instance
-      uses: azure/aci-deploy@v1
-      with:
-        resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
-        name: myfastapiapp-container
-        image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
-        registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io
-        registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
-        registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-        dns-name-label: myfastapiapp-label  # Replace this with a unique label for your app URL
-        ports: 8000
+      - name: Deploy to Azure Container Instance
+        uses: azure/aci-deploy@v1
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          name: myfastapiapp-container
+          image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
+          registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io
+          registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY_USERNAME }}
+          registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
+          dns-name-label: myfastapiapp-label # Replace this with a unique label for your app URL
+          ports: 8000
