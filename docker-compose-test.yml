@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: DockerfileAPI
+    ports:
+      - "8123:8123"
+    environment:
+      - PORT=8123
+    command: ["python", "/app/api.py"]
+
+  test:
+    build:
+      context: .
+      dockerfile: DockerfileAPI
+    depends_on:
+      - api
+    entrypoint: ["pytest", "/app/test-unit-api.py"]
