@@ -17,7 +17,6 @@ jobs:
       run: |
         python -m pytest ./tests/test-unit-api.py
   
-jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
