@@ -1,0 +1,24 @@
+# Utiliser une image Python de base adaptée
+FROM python:3.11.2-slim
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Configurer et activer l'environnement virtuel
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copier et installer les dépendances
+COPY ./data/requirements-api.txt /app/requirements.txt
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copier uniquement les fichiers nécessaires
+COPY api.py /app/api.py
+COPY test-unit-api.py /app/test-unit-api.py
+
+# Exposer le port sur lequel l'API va fonctionner
+EXPOSE 8123
+
+# Définir la commande par défaut pour lancer l'API
+CMD ["python", "/app/api.py"]
