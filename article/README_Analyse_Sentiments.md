@@ -1,17 +1,17 @@
 
 # 🌟 **Anticiper les Bad Buzz grâce à l’Analyse de Sentiments avec Deep Learning** 🌟
 
-Dans un monde où la réputation en ligne est cruciale, les entreprises doivent anticiper les bad buzz sur les réseaux sociaux. 
-Ce projet, réalisé pour la compagnie aérienne _Air Paradis_, vise à développer un prototype d’intelligence artificielle capable de prédire 
-les sentiments associés à des tweets. Découvrez comment les approches classiques et avancées du Deep Learning, combinées aux principes 
+Dans un monde où la réputation en ligne est cruciale, les entreprises doivent anticiper les bad buzz sur les réseaux sociaux.
+Ce projet, réalisé pour la compagnie aérienne _Air Paradis_, vise à développer un prototype d’intelligence artificielle capable de prédire
+les sentiments associés à des tweets. Découvrez comment les approches classiques et avancées du Deep Learning, combinées aux principes
 du MLOps, ont permis de relever ce défi ambitieux. 🚀
 
 ---
 
 ## **📖 Contexte et Objectif**
 
-_Air Paradis_, confrontée à des critiques régulières sur les réseaux sociaux, a sollicité une solution capable de détecter rapidement 
-les tweets négatifs. L’objectif était de concevoir un modèle d’analyse de sentiments prédisant si un tweet est **positif** ou **négatif**, 
+_Air Paradis_, confrontée à des critiques régulières sur les réseaux sociaux, a sollicité une solution capable de détecter rapidement
+les tweets négatifs. L’objectif était de concevoir un modèle d’analyse de sentiments prédisant si un tweet est **positif** ou **négatif**,
 à partir de données publiques issues de Twitter.
 
 ### Les Données 📊
@@ -46,7 +46,7 @@ les tweets négatifs. L’objectif était de concevoir un modèle d’analyse de
 
 Pour améliorer la précision, des techniques plus complexes ont été explorées :
 
-2. **Embeddings de mots** : 
+2. **Embeddings de mots** :
    - Modèles utilisés : Word2Vec, FastText, Use, Bert.
    ![alt text](image.png)
    - Intégration dans des modèles (Word2Vec et FastText) Deep Learning avec des couches LSTM, capturant les relations contextuelles.
@@ -60,7 +60,19 @@ Pour améliorer la précision, des techniques plus complexes ont été explorée
    - Entrainement du modèle bert-base-uncased:
    ![alt text](image-4.png)
 
-_💡 Illustration suggérée : Comparaison des performances entre les modèles avancés et classiques (tableau ou courbe)._
+### **Conclusion**
+
+- Les résultats montrent une amélioration graduelle des performances en passant des modèles classiques aux approches avancées. Tandis que les techniques d'embeddings comme USE se sont montrées prometteuses.
+- Le fine-tuning de BERT a démontré sa supériorité pour capturer les subtilités des sentiments exprimés dans les tweets. Le modèle fine-tuné bert-base-uncased se distingue comme l'option la plus robuste pour prédire les sentiments dans ce contexte.
+
+### Justification et choix du modèle:
+
+Compte tenu des limitations de ressources Azure imposées pour ce projet, un compromis entre performances et coût computationnel était nécessaire. Par conséquent, le modèle TF-IDF + lemmatisation a été retenu comme solution finale.
+
+- Il offre une précision compétitive de 73.1% et un AUC de 80.8%, tout en étant beaucoup moins gourmand en ressources que les modèles basés sur des embeddings ou des architectures profondes comme BERT.
+- Ce choix garantit un déploiement efficace et accessible dans un environnement Azure limité, tout en répondant aux besoins métier d'identification rapide des sentiments.
+
+Ce modèle répond ainsi aux contraintes tout en offrant une solution robuste et optimisée pour l'analyse de sentiments dans ce projet.
 
 ---
 
@@ -74,7 +86,7 @@ _💡 Illustration suggérée : Comparaison des performances entre les modèles 
 ### **ML, DEV et OPS dans un pipeline MLOps**
 
 ![Pipeline MLOps](image-mlops.webp)
-*source: https://www.phdata.io/blog/mlops-vs-devops-whats-the-difference/*
+_source: <https://www.phdata.io/blog/mlops-vs-devops-whats-the-difference/>_
 
 L'image ci-dessous illustre un pipeline MLOps, combinant les pratiques de Machine Learning (ML), Développement (DEV), et Opérations (OPS) pour garantir une mise en production efficace et une gestion continue des modèles d'apprentissage automatique.
 
@@ -96,6 +108,7 @@ ___
 ### **Comparaison des Modèles 📈**
 
 Les modèles ont été évalués sur des métriques pertinentes :
+
 - **AUC (Area Under Curve)**.
 - **Matrice de confusion** pour analyser les faux positifs et les faux négatifs.
 - **Temps d’entraînement** et d’inférence.
@@ -120,6 +133,7 @@ _💡 Illustration suggérée : Capture d’écran de l’interface MLFlow._
 ### API Flask pour le Déploiement 🌐
 
 Une API a été développée pour exposer les prédictions du modèle en temps réel :
+
 - Endpoint `/predict` : Recevant un tweet et retournant le sentiment associé.
 - Tests unitaires pour valider la robustesse de l’API avant déploiement.
 
