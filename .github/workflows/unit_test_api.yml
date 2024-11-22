@@ -27,6 +27,9 @@ jobs:
         with:
           name: coverage-report
           path: htmlcov/  # Dossier contenant le rapport HTML de couverture (si généré)
+      - name: Display artifact download URL
+        run: echo "Download the artifact from https://github.com/<OWNER>/<REPO>/actions/runs/<RUN_ID>/artifacts"
+
 
   build-and-deploy:
     needs: test  # Ne s'exécute que si le job "test" réussit
