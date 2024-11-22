@@ -1,24 +1,35 @@
 on: [push]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+      
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: 3.11.2
+      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r ./data/requirements-api.txt
-      - name: Run Flask API Tests
+          pip install pytest pytest-cov  # Installer pytest-cov pour la couverture
+      
+      - name: Run Tests with Coverage
         run: |
-          python -m pytest ./tests/test-unit-api.py
+          pytest --cov=api --cov-report=term-missing ./tests/test-unit-api.py
+      
+      - name: Upload Coverage Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: htmlcov/  # Dossier contenant le rapport HTML de couverture (si généré)
 
   build-and-deploy:
-    needs: test # Only runs if 'test' job passes
+    needs: test  # Ne s'exécute que si le job "test" réussit
     runs-on: ubuntu-latest
     steps:
       - name: Check out the code
@@ -44,15 +55,15 @@ jobs:
       - name: Deploy to Azure Container Instance
         uses: azure/aci-deploy@v1
         with:
-          resource-group: Projet7 # Updated resource group name
+          resource-group: Projet7  # Nom du groupe de ressources
           name: myfastapiapp-container
-          image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest # Updated container registry name
-          registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io # Updated container registry login server
+          image: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io/myfastapiapp:latest
+          registry-login-server: ${{ secrets.AZURE_CONTAINER_REGISTRY }}.azurecr.io
           registry-username: ${{ secrets.AZURE_CONTAINER_REGISTRY }}
           registry-password: ${{ secrets.AZURE_CONTAINER_REGISTRY_PASSWORD }}
-          dns-name-label: myapiapp-projet7 # Replace this with a unique label for your app URL
+          dns-name-label: myapiapp-projet7  # Label unique pour l'URL de votre application
           ports: 8000
-          location: francecentral # Set location to France Central
+          location: francecentral  # Région Azure
           cpu: 1
           memory: 1.5
           os-type: Linux

@@ -10,3 +10,5 @@ psutil==6.1.0
 pytest
 opencensus-ext-azure
 uvicorn
+opencensus
+opencensus-ext-azure
