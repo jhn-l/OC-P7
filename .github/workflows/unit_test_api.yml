@@ -20,7 +20,7 @@ jobs:
       
       - name: Run Tests with Coverage
         run: |
-          pytest --cov=api --cov-report=term-missing ./tests/test-unit-api.py
+          PYTHONPATH=. pytest --cov=api --cov-report=term-missing ./tests/test-unit-api.py
       
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v3
