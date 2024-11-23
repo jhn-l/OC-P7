@@ -27,14 +27,9 @@ jobs:
         with:
           name: coverage-report
           path: htmlcov/  # Dossier contenant le rapport HTML de couverture (si généré)
+          if-no-files-found: error  # Si le dossier n'existe pas, lancer une erreur
       - name: Check htmlcov contents
-        run: ls -la htmlcov
-      - name: Display artifact download URL
-        run: echo "Download the artifact from https://github.com/<OWNER>/<REPO>/actions/runs/<RUN_ID>/artifacts"
-      - name: Enable debug logs
-        run: echo "ACTIONS_STEP_DEBUG=true" >> $GITHUB_ENV
-
-
+        run: ls -la htmlcov # Vérifier le contenu du dossier htmlcov
 
   build-and-deploy:
     needs: test  # Ne s'exécute que si le job "test" réussit
