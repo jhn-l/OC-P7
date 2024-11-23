@@ -96,6 +96,7 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 - **Tests unitaires** :
   - Vérification du chargement du modèle.
   - Tests de prédictions valides pour des tweets positifs et négatifs.
+  - Code coverage inclus dans le github `Actions`.
 
 ---
 
