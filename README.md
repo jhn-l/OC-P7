@@ -100,11 +100,43 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 
 ---
 
-## 🌐 **Déploiement en Production**
+## 🌐 **Déploiement**
 - Déploiement via Docker sur le cloud Azure.
 - Suivi des erreurs et alertes grâce à Azure Application Insights :
   - Traces des tweets mal classifiés.
   - Alerte déclenchée après 3 erreurs en moins de 5 minutes.
+---
+
+## ⚠️ **Disclaimer de Sécurité**
+
+### Limitations Actuelles
+1. **Connexion Non Sécurisée** :
+   - L'API utilise actuellement HTTP sans chiffrement. Cela signifie que les données transmises entre l'interface et l'API ne sont pas protégées.
+   - Les utilisateurs sont invités à configurer un serveur HTTPS pour garantir la sécurité des échanges.
+
+2. **Absence d'Authentification** :
+   - Aucune méthode d'authentification (par exemple, token ou clé API) n'est implémentée. Cela rend l'API vulnérable à des usages non autorisés.
+
+3. **Sécurité des Données** :
+   - Les mécanismes de sécurité comme le chiffrement des données sensibles ne sont pas en place.
+
+### Recommandations pour Améliorer la Sécurité
+1. **Mettre en place HTTPS** :
+   - Configurer un certificat SSL/TLS pour sécuriser les connexions.
+   - Utiliser des outils comme Let's Encrypt pour un certificat gratuit et fiable.
+
+2. **Ajouter un Token d'Authentification** :
+   - Implémenter un système de token (par exemple, JWT ou clé API) pour restreindre l'accès.
+   - Configurer des rôles et permissions selon les besoins.
+
+3. **Chiffrement des Données** :
+   - Chiffrer les données sensibles avant de les transmettre à l'API.
+
+4. **Tests de Sécurité** :
+   - Effectuer des tests réguliers pour détecter et corriger les vulnérabilités (par exemple, OWASP Top Ten).
+
+### Attention
+L'usage de cette API dans un environnement de production tel quel est **fortement déconseillé** sans la mise en œuvre des recommandations ci-dessus.
 
 ---
 
