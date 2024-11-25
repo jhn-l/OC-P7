@@ -1,3 +1,14 @@
+"""
+Script : Téléchargement des Artefacts avec MLFlow
+
+Description :
+Ce script est conçu pour télécharger les derniers artefacts (modèle et vectorizer)
+enregistrés dans MLFlow. Il est principalement utilisé pour centraliser et synchroniser
+les modèles nécessaires à une API ou une application d’analyse de sentiment.
+"""
+
+
+
 import mlflow
 from mlflow.tracking import MlflowClient
 import os
@@ -17,7 +28,16 @@ os.makedirs(output_dir, exist_ok=True)
 client = MlflowClient()
 
 def download_latest_artifact(model_name, output_dir):
-    """Télécharge le dernier modèle ou vectorizer depuis MLflow et le sauvegarde dans le dossier spécifié."""
+    """
+    Télécharge le dernier modèle ou vectorizer depuis MLFlow et le sauvegarde dans le dossier spécifié.
+
+    Arguments :
+    - model_name (str) : Nom du modèle à télécharger.
+    - output_dir (str) : Chemin du dossier de stockage des artefacts.
+
+    Exceptions :
+    - ValueError : Si aucune version du modèle n'est trouvée.
+    """
     # Récupérer les versions disponibles dans le registre
     all_versions = client.search_model_versions(f"name='{model_name}'")
     if not all_versions:
