@@ -14,7 +14,7 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 - `notebooks/` : 
   - **1-modele-classique.ipynb** : Modèle classique basé sur régression logistique (testés sur 20 000 tweets).
   - **2-modele-avance-BERT.ipynb** : Modèle de Word embeddings et LSTM, utilisation également de modèle pré-entrainés (testés sur 20 000 tweets).
-  - **3-modele-BERT.ypnb** : Entrainement d'un modèle BERT et essais de fine tuning (testés sur 1 000 tweets).
+  - **3-modele-BERT.ypnb** : Fine tuning d'un modèle BERT et essais de fine tuning (testés sur 20 000 tweets).
 - `artifacts/utils/download_model.py` : Contient les modèles et vectorizers téléchargés depuis MLFlow à l'aide du script.
 - `README.md` : Documentation du projet.
 - `article/README_Analyse_Sentiments.md` : Article sur l'évaluation et le résultat de plusieurs modèles d'analyses de sentiments obtenus grâce aux différents notebooks.
@@ -76,7 +76,7 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 
 ### Modèle Classique
 - Algorithme : Régression Logistique.
-- Vectorisation : TF-IDF / CountVectorizer avec lemmatization et stemming. 
+- Vectorisation : TF-IDF (utilisé en exemple dans cet API) / CountVectorizer avec lemmatization et stemming. 
 
 ### Modèles Avancés
 - Embeddings avec ['w2v', 'fasttext', 'bert', 'use'] + Régression Logistique
