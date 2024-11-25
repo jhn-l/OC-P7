@@ -57,7 +57,7 @@ Pour améliorer la précision, des techniques plus complexes ont été explorée
       ![alt text](image-2.png)
    - Fine-tuning d’un modèle finiteautomata/bertweet-base-sentiment-analysis:
    ![alt text](image-3.png)
-   - Entrainement du modèle bert-base-uncased:
+   - Fine tuning du modèle bert-base-uncased:
    ![alt text](image-4.png)
 
 ### **Conclusion**
@@ -165,6 +165,7 @@ Grâce à cette intégration, le modèle peut être déployé rapidement et effi
    ![alt text](image-8.png)
 - Logs et alertes configurés pour garantir une fiabilité continue.
 ![alt text](image-10.png)
+
 ---
 
 ## **📊 Résultats et Impact**
@@ -185,7 +186,7 @@ Grâce à cette intégration, le modèle peut être déployé rapidement et effi
 ### Résultats Clés ✅
 
 - Les modèles **`TF-IDF`** et **`finiteautomata/bertweet-base-sentiment-analysis`** constituent une base solide pour un **Proof of Concept (POC)**. Leur performance et leur simplicité d'implémentation en font des candidats idéaux pour valider rapidement la faisabilité du projet.
-- Le modèle **`BERT` entrainé** a atteint des scores d’ACCURACY prometteur sur le jeu de validation, démontrant son potentiel pour une solution à long terme. Grâce à sa capacité à capturer les subtilités des sentiments, il répond parfaitement aux besoins stratégiques de **_Air Paradis_** et constitue une option robuste pour des déploiements industriels futurs.
+- Le modèle **`BERT` fine tuné** a atteint des scores d’ACCURACY prometteur sur le jeu de validation, démontrant son potentiel pour une solution à long terme. Grâce à sa capacité à capturer les subtilités des sentiments, il répond parfaitement aux besoins stratégiques de **_Air Paradis_** et constitue une option robuste pour des déploiements industriels futurs.
 
 ---
 
