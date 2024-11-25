@@ -8,15 +8,16 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 
 ## 🗂 **Structure des Fichiers**
 - `api.py` : Code Flask pour exposer le modèle sous forme d'API.
-- `download_model.py` : Script pour télécharger les artefacts depuis MLFlow.
-- `test-unit-api.py` : Tests unitaires pour vérifier les fonctionnalités de l'API.
+- `utils/download_model.py` : Script pour télécharger les artefacts depuis MLFlow.
+- `tests/test-unit-api.py` : Tests unitaires pour vérifier les fonctionnalités de l'API.
 - `DockerfileAPI` & `docker-compose.yml` : Configuration pour la containerisation et le déploiement sur le cloud via `unit_test_api.yml`.
 - `notebooks/` : 
   - **1-modele-classique.ipynb** : Modèle classique basé sur régression logistique (testés sur 20 000 tweets).
   - **2-modele-avance-BERT.ipynb** : Modèle de Word embeddings et LSTM, utilisation également de modèle pré-entrainés (testés sur 20 000 tweets).
   - **3-modele-BERT.ypnb** : Entrainement d'un modèle BERT et essais de fine tuning (testés sur 1 000 tweets).
-- `artifacts/` : Contient les modèles et vectorizers téléchargés depuis MLFlow.
+- `artifacts/utils/download_model.py` : Contient les modèles et vectorizers téléchargés depuis MLFlow à l'aide du script.
 - `README.md` : Documentation du projet.
+- `article/README_Analyse_Sentiments.md` : Article sur l'évaluation et le résultat de plusieurs modèles d'analyses de sentiments obtenus grâce aux différents notebooks.
 
 ---
 
@@ -29,7 +30,7 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 - **MLOps** :
   - Azure Application Insights : Suivi des performances en production.
 - **Containerisation** :
-  - Docker et Docker Compose pour la mise en production.
+  - Docker et Docker Compose.
 
 ---
 
@@ -79,8 +80,8 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 
 ### Modèles Avancés
 - Embeddings avec ['w2v', 'fasttext', 'bert', 'use'] + Régression Logistique
-- LSTM avec embeddings Word2Vec et GloVe.
-- Modèle BERT pour un meilleur contexte sémantique.
+- LSTM avec embeddings Word2Vec et FastText.
+- Différent modèles BERT (pré-entrainé et entrainé) pour un meilleur contexte sémantique.
 
 ### Méthodologies MLOps
 - **Tracking avec MLFlow** :
@@ -95,8 +96,7 @@ Ce projet a pour objectif de développer un prototype d'IA capable d'anticiper l
 - **Tests unitaires** :
   - Vérification du chargement du modèle.
   - Tests de prédictions valides pour des tweets positifs et négatifs.
-- **Métriques évaluées** :
-  - Accuracy, F1-score, ROC-AUC.
+  - Code coverage inclus dans le github `Actions`.
 
 ---
 
