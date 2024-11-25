@@ -48,17 +48,17 @@ Pour améliorer la précision, des techniques plus complexes ont été explorée
 
 2. **Embeddings de mots** :
    - Modèles utilisés : Word2Vec, FastText, Use, Bert.
-   ![alt text](image.png)
+   ![alt text](images/image-0.png)
    - Intégration dans des modèles (Word2Vec et FastText) Deep Learning avec des couches LSTM, capturant les relations contextuelles.
-   ![alt text](image-1.png)
+   ![alt text](images/image-1.png)
 
 3. **BERT (✨)** :
    - Modèles pré entrainé testés.
-      ![alt text](image-2.png)
+      ![alt text](images/image-2.png)
    - Fine-tuning d’un modèle finiteautomata/bertweet-base-sentiment-analysis:
-   ![alt text](image-3.png)
+   ![alt text](images/image-3.png)
    - Fine tuning du modèle bert-base-uncased:
-   ![alt text](image-4.png)
+   ![alt text](images/image-4.png)
 
 ### **Conclusion**
 
@@ -85,7 +85,7 @@ Ce modèle répond ainsi aux contraintes tout en offrant une solution robuste et
 
 ### **ML, DEV et OPS dans un pipeline MLOps**
 
-![Pipeline MLOps](image-mlops.webp)
+![Pipeline MLOps](images/image-mlops.webp)
 _source: <https://www.phdata.io/blog/mlops-vs-devops-whats-the-difference/>_
 
 L'image ci-dessous illustre un pipeline MLOps, combinant les pratiques de Machine Learning (ML), Développement (DEV), et Opérations (OPS) pour garantir une mise en production efficace et une gestion continue des modèles d'apprentissage automatique.
@@ -121,11 +121,11 @@ _💡 Illustration suggérée : Matrice de confusion ou courbe ROC pour le meill
 
 Pour garantir l’industrialisation du projet, une démarche MLOps complète a été adoptée.
 
-### Suivi des Expérimentations avec MLFlow
+### **Suivi des Expérimentations avec MLFlow**
 
 - **Tracking** : Historisation des hyperparamètres, des scores et des courbes ROC.
 - **Gestion des modèles** : Enregistrement centralisé des artefacts, facilitant le déploiement et la comparaison des versions à l'aide du registry.
-![alt text](image-6.png)![alt text](image-7.png)
+![alt text](images/image-6.png)![alt text](images/image-7.png)
 
 ---
 
@@ -155,16 +155,16 @@ Pour assurer un déploiement automatisé et reproductible, j'ai intégré **GitH
 
 Grâce à cette intégration, le modèle peut être déployé rapidement et efficacement, tout en permettant un suivi continu des performances en production.
 
-![alt text](image-9.png)
+![alt text](images/image-9.png)
 
 ---
 
 ### Monitoring en Production 📡
 
 - Utilisation d’Azure Application Insights pour capturer les erreurs et analyser les performances en conditions réelles.
-   ![alt text](image-8.png)
+   ![alt text](images/image-8.png)
 - Logs et alertes configurés pour garantir une fiabilité continue.
-![alt text](image-10.png)
+![alt text](images/image-10.png)
 
 ---
 
